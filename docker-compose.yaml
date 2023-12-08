@@ -1,0 +1,39 @@
+version: '3.1'
+
+services:
+  stockpulse:
+    build: "stockpulse"
+    env_file:
+      - .env_stock
+    ports:
+      - '8000:8000'
+    depends_on:
+      - stockpulse_db
+    restart: always
+
+  stockpulse_db:
+    image: "mysql:latest"
+    env_file:
+      - .env_stock
+    restart: always
+    volumes:
+      - ./stockpulse_db:/var/lib/mysql
+
+  clientpulse:
+    build: "clientpulse"
+    env_file:
+      - .env_client
+    ports:
+      - '3000:3000'
+    depends_on:
+      - stockpulse
+      - clientpulse_db
+    restart: always
+
+  clientpulse_db:
+    image: "mysql:latest"
+    env_file:
+      - .env_client
+    restart: always
+    volumes:
+      - ./clientpulse_db:/var/lib/mysql
