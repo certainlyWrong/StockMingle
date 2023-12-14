@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "clientpulse"
+		},
+		{
+			"path": "managerpulse"
 		}
 	],
 	"settings": {}
