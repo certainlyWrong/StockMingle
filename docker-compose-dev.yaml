@@ -1,0 +1,76 @@
+version: '3.1'
+
+services:
+  stockpulse:
+    container_name: StockPulse
+    build: "stockpulse"
+    env_file:
+      - .env_stock
+    ports:
+      - '8000:8000'
+    depends_on:
+      - stockpulse_db
+    restart: always
+
+  stockpulse_db:
+    container_name: stockpulse_db
+    image: "mysql:latest"
+    env_file:
+      - .env_stock
+    restart: always
+    volumes:
+      - ./stockpulse_db:/var/lib/mysql
+
+  clientpulse:
+    container_name: ClientPulse
+    build: "clientpulse"
+    env_file:
+      - .env_client
+    ports:
+      - '3000:3000'
+    depends_on:
+      - stockpulse
+      - clientpulse_db
+    restart: always
+
+  clientpulse_db:
+    container_name: clientpulse_db
+    image: "mysql:latest"
+    env_file:
+      - .env_client
+    restart: always
+    volumes:
+      - ./clientpulse_db:/var/lib/mysql
+
+  managerpulse:
+    container_name: ManagerPulse
+    build: "managerpulse"
+    env_file:
+      - .env_manager
+    ports:
+      - '2000:2000'
+    depends_on:
+      - stockpulse
+      - clientpulse
+      - managerpulse_db
+    restart: always
+
+  managerpulse_db:
+    container_name: managerpulse_db
+    image: "mongo:latest"
+    env_file:
+      - .env_manager
+    restart: always
+    volumes:
+      - ./managerpulse_db:/data/db
+
+  managerpulse_db_express:
+    container_name: managerpulse_db_express
+    image: "mongo-express:latest"
+    env_file:
+      - .env_manager
+    ports:
+      - '8081:8081'
+    depends_on:
+      - managerpulse_db
+    restart: always

@@ -2,8 +2,8 @@ version: '3.1'
 
 services:
   stockpulse:
-    container_name: stockpulse
-    build: "stockpulse"
+    container_name: StockPulse
+    build: "https://github.com/certainlyWrong/StockPulse.git"
     env_file:
       - .env_stock
     ports:
@@ -22,8 +22,8 @@ services:
       - ./stockpulse_db:/var/lib/mysql
 
   clientpulse:
-    container_name: clientpulse
-    build: "clientpulse"
+    container_name: ClientPulse
+    build: "https://github.com/certainlyWrong/ClientPulse.git"
     env_file:
       - .env_client
     ports:
@@ -43,8 +43,8 @@ services:
       - ./clientpulse_db:/var/lib/mysql
 
   managerpulse:
-    container_name: managerpulse
-    build: "managerpulse"
+    container_name: ManagerPulse
+    build: "https://github.com/certainlyWrong/ManagerPulse.git"
     env_file:
       - .env_manager
     ports:
