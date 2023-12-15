@@ -1,2 +1,5 @@
 *_db
 .env*
+StockPulse
+ClientPulse
+ManagerPulse
