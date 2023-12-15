@@ -4,13 +4,13 @@
 			"path": "."
 		},
 		{
-			"path": "stockpulse"
+			"path": "StockPulse"
 		},
 		{
-			"path": "clientpulse"
+			"path": "ClientPulse"
 		},
 		{
-			"path": "managerpulse"
+			"path": "ManagerPulse"
 		}
 	],
 	"settings": {}
