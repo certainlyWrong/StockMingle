@@ -6,8 +6,6 @@ services:
     build: "https://github.com/certainlyWrong/StockPulse.git"
     env_file:
       - .env_stock
-    ports:
-      - '8000:8000'
     depends_on:
       - stockpulse_db
     restart: always
@@ -26,8 +24,6 @@ services:
     build: "https://github.com/certainlyWrong/ClientPulse.git"
     env_file:
       - .env_client
-    ports:
-      - '3000:3000'
     depends_on:
       - stockpulse
       - clientpulse_db
@@ -70,7 +66,7 @@ services:
     env_file:
       - .env_manager
     ports:
-      - '8081:8081'
+      - '8081'
     depends_on:
       - managerpulse_db
     restart: always

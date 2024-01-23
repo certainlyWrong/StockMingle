@@ -3,7 +3,7 @@ version: '3.1'
 services:
   stockpulse:
     container_name: StockPulse
-    build: "stockpulse"
+    build: "StockPulse"
     env_file:
       - .env_stock
     ports:
@@ -17,13 +17,15 @@ services:
     image: "mysql:latest"
     env_file:
       - .env_stock
+    ports:
+      - '3301:3306'
     restart: always
     volumes:
       - ./stockpulse_db:/var/lib/mysql
 
   clientpulse:
     container_name: ClientPulse
-    build: "clientpulse"
+    build: "ClientPulse"
     env_file:
       - .env_client
     ports:
@@ -39,12 +41,14 @@ services:
     env_file:
       - .env_client
     restart: always
+    ports:
+      - '3302:3306'
     volumes:
       - ./clientpulse_db:/var/lib/mysql
 
   managerpulse:
     container_name: ManagerPulse
-    build: "managerpulse"
+    build: "ManagerPulse"
     env_file:
       - .env_manager
     ports:
@@ -60,6 +64,8 @@ services:
     image: "mongo:latest"
     env_file:
       - .env_manager
+    ports:
+      - '27017:27017'
     restart: always
     volumes:
       - ./managerpulse_db:/data/db
