@@ -6,18 +6,7 @@ services:
     build: "https://github.com/certainlyWrong/StockPulse.git"
     env_file:
       - .env_stock
-    depends_on:
-      - stockpulse_db
     restart: always
-
-  stockpulse_db:
-    container_name: stockpulse_db
-    image: "mysql:latest"
-    env_file:
-      - .env_stock
-    restart: always
-    volumes:
-      - ./stockpulse_db:/var/lib/mysql
 
   clientpulse:
     container_name: ClientPulse
@@ -26,17 +15,7 @@ services:
       - .env_client
     depends_on:
       - stockpulse
-      - clientpulse_db
     restart: always
-
-  clientpulse_db:
-    container_name: clientpulse_db
-    image: "mysql:latest"
-    env_file:
-      - .env_client
-    restart: always
-    volumes:
-      - ./clientpulse_db:/var/lib/mysql
 
   managerpulse:
     container_name: ManagerPulse
