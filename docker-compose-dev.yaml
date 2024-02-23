@@ -4,8 +4,8 @@ services:
   stockpulse:
     container_name: StockPulse
     build: "StockPulse"
-    env_file:
-      - .env_stock
+    environment:
+      - MODE=development
     ports:
       - '8000:8000'
     depends_on:
@@ -15,10 +15,10 @@ services:
   stockpulse_db:
     container_name: stockpulse_db
     image: "mysql:latest"
-    env_file:
-      - .env_stock
-    ports:
-      - '3301:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=stockpulse
+      - MYSQL_PASSWORD=123456
     restart: always
     volumes:
       - ./stockpulse_db:/var/lib/mysql
@@ -26,8 +26,8 @@ services:
   clientpulse:
     container_name: ClientPulse
     build: "ClientPulse"
-    env_file:
-      - .env_client
+    environment:
+      - MODE=development
     ports:
       - '3000:3000'
     depends_on:
@@ -38,21 +38,21 @@ services:
   clientpulse_db:
     container_name: clientpulse_db
     image: "mysql:latest"
-    env_file:
-      - .env_client
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=clientpulse
+      - MYSQL_PASSWORD=123456
     restart: always
-    ports:
-      - '3302:3306'
     volumes:
       - ./clientpulse_db:/var/lib/mysql
 
   managerpulse:
     container_name: ManagerPulse
     build: "ManagerPulse"
-    env_file:
-      - .env_manager
     ports:
       - '2000:2000'
+    environment:
+      - MODE=development
     depends_on:
       - stockpulse
       - clientpulse
@@ -62,8 +62,9 @@ services:
   managerpulse_db:
     container_name: managerpulse_db
     image: "mongo:latest"
-    env_file:
-      - .env_manager
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
       - '27017:27017'
     restart: always
@@ -74,9 +75,7 @@ services:
     container_name: managerpulse_db_express
     image: "mongo-express:latest"
     env_file:
-      - .env_manager
-    ports:
-      - '8081:8081'
+      - ./ManagerPulse/.env
     depends_on:
       - managerpulse_db
     restart: always

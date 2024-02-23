@@ -3,25 +3,17 @@ version: '3.1'
 services:
   stockpulse:
     container_name: StockPulse
-    build: "https://github.com/certainlyWrong/StockPulse.git"
-    env_file:
-      - .env_stock
+    build: "StockPulse"
     restart: always
 
   clientpulse:
     container_name: ClientPulse
-    build: "https://github.com/certainlyWrong/ClientPulse.git"
-    env_file:
-      - .env_client
-    depends_on:
-      - stockpulse
+    build: "ClientPulse"
     restart: always
 
   managerpulse:
     container_name: ManagerPulse
-    build: "https://github.com/certainlyWrong/ManagerPulse.git"
-    env_file:
-      - .env_manager
+    build: "ManagerPulse"
     ports:
       - '2000:2000'
     depends_on:
@@ -33,19 +25,9 @@ services:
   managerpulse_db:
     container_name: managerpulse_db
     image: "mongo:latest"
-    env_file:
-      - .env_manager
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=123456
     restart: always
     volumes:
       - ./managerpulse_db:/data/db
-
-  managerpulse_db_express:
-    container_name: managerpulse_db_express
-    image: "mongo-express:latest"
-    env_file:
-      - .env_manager
-    ports:
-      - '8081'
-    depends_on:
-      - managerpulse_db
-    restart: always
